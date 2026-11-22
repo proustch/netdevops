@@ -12,7 +12,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v44
+        uses: actions/checkout@v4
       - name: Verify pre-flight eAPI Reachability
         run: |
           ansible-playbook -i inventory/hosts.yml playbooks/01_precheck.yml
