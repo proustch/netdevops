@@ -12,23 +12,23 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v44
       - name: Verify pre-flight eAPI Reachability
         run: |
-          ansible-playbook playbooks/01_precheck.yml
+          ansible-playbook -i inventory/hosts.yml playbooks/01_precheck.yml
       - name: Generate Configuration Files
         run: |
-          ansible-playbook playbooks/02_generate_configs.yml
+          ansible-playbook -i inventory/hosts.yml playbooks/02_generate_configs.yml
       - name: CI - Pre-Flight Dry Run of Configuration Deployment
         if: github.event_name == 'pull_request'
         run: |  
-          ansible-playbook playbooks/03_deploy_config.yml --check --diff
+          ansible-playbook -i inventory/hosts.yml playbooks/03_deploy_config.yml --check --diff
       - name: CD - Live Fabric Deployment (Merge to main branch)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          ansible-playbook playbooks/03_deploy_config.yml
+          ansible-playbook -i inventory/hosts.yml playbooks/03_deploy_config.yml
       - name: Post-Deployment Fabric Verification
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          ansible-playbook playbooks/04_verify_fabric.yml
+          ansible-playbook -i inventory/hosts.yml playbooks/04_verify_fabric.yml
     
