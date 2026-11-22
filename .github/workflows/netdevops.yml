@@ -18,7 +18,7 @@ jobs:
           ansible-playbook -i inventory/hosts.yml playbooks/01_precheck.yml
       - name: Generate Configuration Files
         run: |
-          ansible-playbook -i inventory/hosts.yml playbooks/generate_configs.yml
+          ansible-playbook -i inventory/hosts.yml playbooks/generate_config.yml
       - name: CI - Pre-Flight Dry Run of Configuration Deployment
         if: github.event_name == 'pull_request'
         run: |  
