@@ -1,0 +1,55 @@
+ip routing
+hostname {{ inventory_hostname }}
+{% if dns_servers is defined %}
+{% for dns in dns_servers %}
+ip name-server {{ dns }}
+{% endfor %}
+{% endif %}
+
+{% if ntp_servers is defined %}
+ntp server {{ ntp_servers[0] }}
+{% endif %}
+
+{% if router_id is defined %}
+interface Loopback0
+    description "Router-ID - Management Loopback"
+    ip address {{ router_id }}/32
+{% endif %}
+
+{% if interfaces is defined %}
+{% for intf, details in interfaces.items() %}
+interface {{ intf }}
+  description {{ details.description }}
+  no switchport
+  ip address {{ details.ip }}
+{% endfor %}
+{% endif %}
+
+{% if role == 'leaf' and vlans is defined %}
+{% for vlan in vlans %}
+vlan {{ vlan.id }}
+ name {{ vlan.name }}
+{% endfor %}
+{% endif %}
+
+{% if bgp_asn is defined %}
+router bgp {{ bgp_asn }}
+ no shutdown
+
+{% if router_id is defined %}
+ router-id {{ router_id }}
+{% endif %}
+
+ no bgp default ipv4-unicast
+{% if bgp_neighbors is defined %}
+{% for neighbor in bgp_neighbors %}
+neighbor {{ neighbor.ip }} remote-as {{ neighbor.remote_as }}
+neighbor {{ neighbor.ip }} description {{ neighbor.description }}
+{% endfor %}
+address-family ipv4
+{% for neighbor in bgp_neighbors %}
+ neighbor {{ neighbor.ip }} activate
+{% endfor %}
+{% endif %}
+
+{% endif%}

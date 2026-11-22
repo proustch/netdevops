@@ -1,0 +1,20 @@
+---
+- name: NetDevOps - Deploy Configuration Playbook
+  hosts: all
+  gather_facts: false
+  become: true
+  become_method: enable
+  tasks:
+    - name: Ensure Compiled_configs directory exists
+      delegate_to: localhost
+      become: false
+      ansible.builtin.stat:
+        path: "{{ playbook_dir }}/../compiled_configs/{{ inventory_hostname }}.cfg"
+      register: config_file
+      failed_when: not config_file.stat.exists
+      
+    - name: Deploy Configuration to EOS devices
+      arista.eos.eos_config:
+        src: "{{ playbook_dir }}/../compiled_configs/{{ inventory_hostname }}.cfg"
+        save_when: modified
+        replace: block

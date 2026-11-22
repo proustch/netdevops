@@ -1,0 +1,18 @@
+---
+- name: NetDevOps - Local Configuration Generator
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Ensure Compiled_configs directory exists
+      delegate_to: localhost
+      run_once: true
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../compiled_configs"
+        state: directory
+        mode: '0755'
+    - name: Render Jinga2 Template to local files
+      delegate_to: localhost
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../templates/EOS_config.j2"
+        dest: "{{ playbook_dir}}/../compiled_configs/{{ inventory_hostname }}.cfg"
+        mode: '0644'

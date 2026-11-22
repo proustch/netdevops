@@ -1,0 +1,25 @@
+---
+- name: NetDevOps - Fabric Verification Playbook
+  hosts: all
+  gather_facts: false
+  become: true
+  become_method: enable
+  tasks:
+    - name: Gather Arista EOS facts
+      arista.eos.eos_facts:
+        gather_subset:
+            - default
+      register: eos_facts 
+    - name: Gather BGP summary state information via eAPI
+      arista.eos.eos_command:
+        commands:
+          - show ip bgp summary
+      register: bgp_summary
+    - name: Display Operational status summary of BGP neighbors
+      ansible.builtin.debug:
+        msg:
+          - "Hostname: {{ ansible_net_hostname }} "
+          - "EOS Version: {{ ansible_net_version }}"
+          - "Model: {{ ansible_net_model }}"
+          - "Uptime (sec): {{ ansible_net_uptime | default(0) | int }}"
+          - "BGP Neighbors: {{ bgp_summary.stdout[0] }}"

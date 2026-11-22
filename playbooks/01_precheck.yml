@@ -1,0 +1,22 @@
+---
+- name: NetDevOps - Precheck Playbook
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Check HTTPS eAPI availability
+      ansible.builtin.ping:
+
+    - name: Gather Arista EOS facts
+      arista.eos.eos_facts:
+        gather_subset:
+            - min
+      register: eos_facts
+
+    - name: Check Display Switch System Health
+      ansible.builtin.debug:
+        msg: >-
+            Hostname: {{ ansible_net_hostname }} |
+            Model: {{ ansible_net_model }} |
+            Serial: {{ ansible_net_serialnum }} |
+            Version: {{ ansible_net_version }} |
+            Uptime: {{ (ansible_net_uptime | default(0) | int /86400) | round(2) }} days

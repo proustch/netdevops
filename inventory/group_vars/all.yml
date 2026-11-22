@@ -1,0 +1,12 @@
+ansible_connection: httpapi
+ansible_network_os: arista.eos.eos
+ansible_user: admin
+ansible_password: admin
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false
+domain_name: lab.netdevops.local
+dns_servers:
+  - 8.8.8.8
+  - 1.1.1.1
+ntp_servers:
+  - 172.20.20.1
