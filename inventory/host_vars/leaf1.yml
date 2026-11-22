@@ -3,3 +3,10 @@ router_id: 10.1.0.11
 interfaces:
   Ethernet1: { ip: 10.1.1.2/30, description: "p2p_spine1"}
   Ethernet2: { ip: 10.1.2.2/30, description: "p2p_spine2"}
+bgp_neighbors:
+  - ip: 10.1.1.1
+    remote_as: 65000
+    description: "spine1"
+  - ip: 10.1.2.1
+    remote_as: 65000
+    description: "spine2"
