@@ -6,5 +6,7 @@ interfaces:
 bgp_neighbors:
   - ip: 10.1.1.5
     remote_as: 65000
+    description: "p2p_spine1"
   - ip: 10.1.2.5
     remote_as: 65000
+    description: "p2p_spine2"

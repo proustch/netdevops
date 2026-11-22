@@ -7,9 +7,13 @@ interfaces:
 bgp_neighbors:
   - ip: 10.1.2.2
     remote_as: 65101
+    description: "leaf1"
   - ip: 10.1.2.6
     remote_as: 65102
+    description: "leaf2"
   - ip: 10.1.2.10
     remote_as: 65103
+    description: "leaf3"
   - ip: 10.1.2.14
     remote_as: 65104
+    description: "leaf4"
