@@ -44,7 +44,6 @@ router bgp {{ bgp_asn }}
 {% if bgp_neighbors is defined %}
 {% for neighbor in bgp_neighbors %}
 neighbor {{ neighbor.ip }} remote-as {{ neighbor.remote_as }}
-#neighbor {{ neighbor.ip }} description {{ neighbor.description }}
 {% endfor %}
 address-family ipv4
 {% for neighbor in bgp_neighbors %}
